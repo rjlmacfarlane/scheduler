@@ -11,4 +11,17 @@ function getAppointmentsForDay(state, day) {
   return apptArray;
 };
 
-export { getAppointmentsForDay };
+function getInterview(state, interview) {
+
+  if (interview) {
+
+    const interviewer = state.interviewers[interview.interviewer];
+    return { ...interview, interviewer };
+
+  }
+
+  return null;
+  
+};
+
+export { getAppointmentsForDay, getInterview };
