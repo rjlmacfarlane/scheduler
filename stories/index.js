@@ -1,7 +1,8 @@
-import React from "react";
+import React, { Fragment } from 'react'
 
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
+
 
 import "index.scss";
 
@@ -14,8 +15,10 @@ import Appointment from "components/Appointment";
 import Header from "components/Appointment/Header";
 import Empty from "components/Appointment/Empty";
 import Show from "components/Appointment/Show";
-
-
+import Confirm from "components/Appointment/Confirm";
+import Delete from "components/Appointment/Status";
+import Error from "components/Appointment/Error";
+import Form from "components/Appointment/Form";
 
 
 storiesOf("Button", module)
@@ -153,6 +156,22 @@ storiesOf("Button", module)
       backgrounds: [{ name: "white", value: "#fff", default: true }]
     })
     .add("Appointment", () => <Appointment />)
+    .add("Appointment Empty", () => (
+      <Fragment>
+        <Appointment id={1} time="12pm" />
+        <Appointment id="last" time="1pm" />
+      </Fragment>
+    ))
+    .add("Appointment Booked", () => (
+  <Fragment>
+    <Appointment
+      id={1}
+      time="12pm"
+      interview={{ student: "Lydia Miller-Jones", interviewer }}
+    />
+    <Appointment id="last" time="1pm" />
+  </Fragment>
+))
     .add("Appointment with Time", () => <Appointment time="12pm" />)
     .add("Header", () => <Header time="12pm" /> )
     .add("Empty", () => <Empty onAdd={action("onAdd")} />)
@@ -163,5 +182,39 @@ storiesOf("Button", module)
         onEdit={action("onEdit")}
         onDelete={action("onDelete")}
       />
-    ));
-
+    ))
+    .add("Confirm", () => (
+      <Confirm
+        message="Are you sure you want to delete this appointment?"
+        onConfirm={action("onConfirm")}
+        onCancel={action("onCancel")}
+      />
+      )
+    )
+    .add("Delete", () => (
+      <Delete
+        message="Deleting this appointment.."
+      />
+    ))
+    .add("Error", () => (
+      <Error 
+        message="Your appointment was not deleted or changed. You must show up, or there will be serious consequences."
+        onClose={action("onClose")}
+      />
+    ))
+    .add("Edit form", () => (
+      <Form 
+        name="Lydia Miller-Jones"
+        interviewers={interviewers}
+        interviewer={3}
+        onSave={action("onSave")}
+        onCancel={action("onCancel")}
+      />
+    ))
+    .add("Create form", () => (
+      <Form 
+        interviewers={interviewers}
+        onSave={action("onSave")}
+        onCancel={action("onCancel")}
+      />
+    ))
