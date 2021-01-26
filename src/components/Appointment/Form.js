@@ -21,14 +21,15 @@ export default function Form(props) {
   //   props.onSave(name, interviewer)
   // }
 
-  const validate = () => {
+  function validate() {
     if (name === "") {
       setError("Student name cannot be blank");
       return;
     }
-
+  
+    setError("");
     props.onSave(name, interviewer);
-  };
+  }
 
   return (
 
