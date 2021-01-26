@@ -67,10 +67,19 @@ export default {
       case ("/api/appointments"): resolvePromise.data = fixtures.appointments; break;
       case ("/api/interviewers"): resolvePromise.data = fixtures.interviewers; break;
       default                   : return rejectPromise;
-      
+
     }
 
     return resolvePromise;
 
-  })
+  }),
+
+  put: jest.fn(url => {
+
+    return Promise.resolve({ 
+      status: 204,
+      statusText: "No Content" 
+      
+    });
+  }), 
 };
