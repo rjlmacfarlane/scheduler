@@ -52,35 +52,35 @@ describe("Application", () => {
   });
 
 
-  // it("loads data, books an interview and reduces the spots remaining for Monday by 1", async () => {
+  it("loads data, books an interview and reduces the spots remaining for Monday by 1", async () => {
 
-  //   // 1. Render the application
-  //   const { container } = render(<Application />);
+    // 1. Render the application
+    const { container } = render(<Application />);
 
-  //   // 2. Wait until "Archie Cohen" is displayed
-  //   await waitForElement(() => getByText(container, "Archie Cohen"));
-  //   const appointment = getAllByTestId(container, "appointment").find(appointment => queryByText(appointment, "Archie Cohen"));
+    // 2. Wait until "Archie Cohen" is displayed
+    await waitForElement(() => getByText(container, "Archie Cohen"));
+    const appointment = getAllByTestId(container, "appointment").find(appointment => queryByText(appointment, "Archie Cohen"));
 
-  //   // 3. Click on the "Delete" button
-  //   fireEvent.click(getByAltText(appointment, "Trash"));
+    // 3. Click on the "Delete" button
+    fireEvent.click(getByAltText(appointment, "Trash"));
 
-  //   // 4. Check that "Do you really want to delete this appointment?" is displayed.
-  //   expect(getByText(appointment, /Do you really want to delete this appointment?/i)).toBeInTheDocument();
+    // 4. Check that "Do you really want to delete this appointment?" is displayed.
+    expect(getByText(appointment, /Do you really want to delete this appointment?/i)).toBeInTheDocument();
 
-  //   // 5. Click "Confirm" button
-  //   fireEvent.click(getByText(appointment, "Confirm"));
+    // 5. Click "Confirm" button
+    fireEvent.click(getByText(appointment, "Confirm"));
 
-  //   // 6.  Check that "Deleting.." is displayed
-  //   expect(getByText(appointment, "Deleting..")).toBeInTheDocument();
+    // 6.  Check that "Deleting.." is displayed
+    expect(getByText(appointment, "Deleting..")).toBeInTheDocument();
 
-  //   // 7. Wait until the "Add" button is displayed
-  //   await waitForElement(() => getByAltText(appointment, "Add"));
+    // 7. Wait until the "Add" button is displayed
+    await waitForElement(() => getByAltText(appointment, "Add"));
 
-  //   // 8. Check that DayListItem is "Monday" and has "2 spots remaining."
-  //   const day = getAllByTestId(container, "day-item").find(day => getByText(day, "Monday"));
-  //   expect(getByText(day, /2 spots remaining/i)).toBeInTheDocument();
+    // 8. Check that DayListItem is "Monday" and has "2 spots remaining."
+    const day = getAllByTestId(container, "day-item").find(day => getByText(day, "Monday"));
+    expect(getByText(day, /2 spots remaining/i)).toBeInTheDocument();
 
-  // });
+  });
 
 
   it("loads data, edits an interview and the spots remaining for Monday stay the same", async () => {
