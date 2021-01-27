@@ -23,7 +23,7 @@ export default function Empty(props) {
           <img
             className="appointment__actions-button"
             src="images/trash.png"
-            alt="Trash"
+            alt="delete"
             onClick={() => props.onDelete()}
           />
         </section>

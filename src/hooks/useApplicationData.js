@@ -12,6 +12,14 @@ export default function useApplicationData() {
     
   });
 
+  const dayIdentifier = {
+    Monday: 0,
+    Tuesday: 1,
+    Wednesday: 2,
+    Thursday: 3,
+    Friday: 4
+  }
+
   const setDay = day => setState({ ...state, day });
 
   function bookInterview(id, interview) {
@@ -26,10 +34,28 @@ export default function useApplicationData() {
       [id]: appointment
     };
 
-    setState(prev => ({...prev, appointments}));
+    const weekday = dayIdentifier[state.day]
 
-    return axios.put(`/api/appointments/${id}`, { interview })
+    let spotsAvailable = {
+      ...state.days[weekday],
+      spots: state.days[weekday].spots
+    }
 
+    if (!state.appointments[id].interview) {
+
+      spotsAvailable = {
+        ...state.days[weekday],
+        spots: state.days[weekday].spots - 1
+      }
+    } 
+
+    let spots = state.days;
+    spots[weekday] = spotsAvailable;
+
+    setState({ ...state, appointments, spots });
+    
+    return axios.put(`/api/appointments/${id}`, { interview });
+     
   }
 
   const cancelInterview = (id) => {
@@ -43,10 +69,20 @@ export default function useApplicationData() {
       [id]: appointment
     };
 
-    setState(prev => ({...prev, appointments}));
+    const weekday = dayIdentifier[state.day];
 
-    return axios.delete(`/api/appointments/${id}`)
-  
+    const spotsAvailable = {
+      ...state.days[weekday],
+      spots: state.days[weekday].spots + 1
+    }
+
+    let spots = state.days;
+    spots[weekday] = spotsAvailable;
+    
+    setState({ ...state, appointments, spots });
+
+    return axios.delete(`/api/appointments/${id}`);
+    
   };
 
   useEffect(() => {
