@@ -42,7 +42,7 @@ export default function Appointment(props) {
       .catch(error => {
         transition(ERROR_SAVE, true)
         console.log(error)
-      });
+    });
 
   };
 
@@ -55,13 +55,14 @@ export default function Appointment(props) {
       .catch(error => {
         transition(ERROR_SAVE, true)
         console.log(error)
-      });
+    });
 
   };
 
   return ( 
   
   <article className="appointment" data-testid="appointment">
+
     <Header time={props.time} />
     { mode === EMPTY && <Empty onAdd={() => transition(CREATE)} /> }
     { mode === SHOW  && (
@@ -72,7 +73,6 @@ export default function Appointment(props) {
       onDelete    = {() => transition(CONFIRM)}
       onEdit      = {() => transition(EDIT)}
     />
-
     )}
 
     {mode === CREATE && (
@@ -87,7 +87,7 @@ export default function Appointment(props) {
       <Status 
         message = "Saving.."
       />
-      )}
+    )}
     
     {mode === DELETE && (
       <Status 
@@ -118,7 +118,7 @@ export default function Appointment(props) {
           message="Failed to save. Please try again."
           onClose={back}
         />
-      )}
+    )}
 
     {mode === ERROR_DELETE && (
       <Error 

@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 
 import { render, cleanup, waitForElement, fireEvent, getByAltText, getAllByTestId, 
-         getByPlaceholderText, getByText, prettyDOM, getAllByAltText, queryByText,
+         getByPlaceholderText, getByText, getAllByAltText, queryByText,
          waitForElementToBeRemoved } from "@testing-library/react";
 
 import Application from "components/Application";
@@ -30,7 +30,6 @@ describe("Application", () => {
   
     await waitForElement(() => getByText(container, "Archie Cohen"));
   
-    // const appointments = getAllByTestId(container, "appointment");
     const appointment = getAllByTestId(container, "appointment")[0];
 
     fireEvent.click(getAllByAltText(appointment, "Add")[0]);
