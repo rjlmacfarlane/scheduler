@@ -28,36 +28,38 @@ export default function Appointment(props) {
     props.interview ? SHOW : EMPTY
   );
 
+  // Save an appointment
   function save(name, interviewer) {
 
     const interview = {
       student: name,
-      interviewer
+      interviewer,
     };
-    
-    transition(SAVING)
+  
+    if (name && interviewer) {
+      transition(SAVING);
+  
+      props
+        .bookInterview(props.id, interview)
+        .then(() => transition(SHOW))
+        .catch((error) => {
+          transition(ERROR_SAVE, true);
+        });
 
-    Promise.resolve(props.bookInterview(props.id, interview))
-      .then(() => transition(SHOW))
-      .catch(error => {
-        transition(ERROR_SAVE, true)
-        console.log(error)
-    });
-
-  };
-
+    }
+  }
+  
+  // Cancel an appointment
   function deleteAppt() {
 
     transition(DELETE, true);
 
-    Promise.resolve(props.cancelInterview(props.id))
+    props
+      .cancelInterview(props.id)
       .then(() => transition(EMPTY))
-      .catch(error => {
-        transition(ERROR_SAVE, true)
-        console.log(error)
-    });
+      .catch((error) => transition(ERROR_DELETE, true));
 
-  };
+  }
 
   return ( 
   

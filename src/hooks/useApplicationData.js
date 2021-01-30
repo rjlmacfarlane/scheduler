@@ -12,6 +12,7 @@ export default function useApplicationData() {
     
   });
 
+  // Assign weekdays to integers for ease of reference
   const dayIdentifier = {
     Monday: 0,
     Tuesday: 1,
@@ -22,67 +23,75 @@ export default function useApplicationData() {
 
   const setDay = day => setState({ ...state, day });
 
+  // Send new interview to DB, then update state
   function bookInterview(id, interview) {
-    
-    const appointment = {
-      ...state.appointments[id],
-      interview: { ...interview }
-    };
 
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment
-    };
+    return axios
+      .put(`/api/appointments/${id}`, { interview })
+      .then((response) => {
 
-    const weekday = dayIdentifier[state.day]
+        const appointment = {
+          ...state.appointments[id],
+          interview: { ...interview },
+        };
+  
+        const appointments = {
+          ...state.appointments,
+          [id]: appointment,
+        };
+  
+        const weekday = dayIdentifier[state.day];
+  
+        let spotsAvailable = {
+          ...state.days[weekday],
+          spots: state.days[weekday].spots,
+        };
+  
+        if (!state.appointments[id].interview) {
+          spotsAvailable = {
+            ...state.days[weekday],
+            spots: state.days[weekday].spots - 1,
+          };
+        }
+  
+        let spots = state.days;
+        spots[weekday] = spotsAvailable;
+  
+        setState({ ...state, appointments, spots });
 
-    let spotsAvailable = {
-      ...state.days[weekday],
-      spots: state.days[weekday].spots
-    }
-
-    if (!state.appointments[id].interview) {
-
-      spotsAvailable = {
-        ...state.days[weekday],
-        spots: state.days[weekday].spots - 1
-      }
-    } 
-
-    let spots = state.days;
-    spots[weekday] = spotsAvailable;
-
-    setState({ ...state, appointments, spots });
-    
-    return axios.put(`/api/appointments/${id}`, { interview });
-     
+      });
   }
 
+  // Remove existing interview from DB, then update state
   const cancelInterview = (id) => {
-    const appointment = {
-      ...state.appointments[id],
-      interview: null
-    };
 
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment
-    };
+    return axios
+      .delete(`/api/appointments/${id}`)
+      .then(response => {
 
-    const weekday = dayIdentifier[state.day];
-
-    const spotsAvailable = {
-      ...state.days[weekday],
-      spots: state.days[weekday].spots + 1
-    }
-
-    let spots = state.days;
-    spots[weekday] = spotsAvailable;
+        const appointment = {
+          ...state.appointments[id],
+          interview: null,
+        };
     
-    setState({ ...state, appointments, spots });
-
-    return axios.delete(`/api/appointments/${id}`);
+        const appointments = {
+          ...state.appointments,
+          [id]: appointment,
+        };
     
+        const weekday = dayIdentifier[state.day];
+    
+        const spotsAvailable = {
+          ...state.days[weekday],
+          spots: state.days[weekday].spots + 1,
+        };
+    
+        let spots = state.days;
+        spots[weekday] = spotsAvailable;
+    
+        setState({ ...state, appointments, spots });
+      });
+
   };
 
   useEffect(() => {

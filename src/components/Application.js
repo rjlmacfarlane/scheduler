@@ -17,6 +17,7 @@ export default function Application(props) {
     const interview = getInterview(state, appointment.interview);
 
       return (
+
         <Appointment
           key             = {appointment.id}
           id              = {appointment.id}
@@ -26,6 +27,7 @@ export default function Application(props) {
           bookInterview   = {bookInterview}
           cancelInterview = {cancelInterview}
         />
+        
       );
 
   });

@@ -1,3 +1,5 @@
+
+// Get all appointments for a selected day
 function getAppointmentsForDay(state, day) {
 
   const apptArray = [];
@@ -12,7 +14,7 @@ function getAppointmentsForDay(state, day) {
   return apptArray;
 };
 
-
+// Get an individual appointment
 function getInterview(state, interview) {
 
   if (interview) {
@@ -26,7 +28,7 @@ function getInterview(state, interview) {
 
 };
 
-
+// Get interviewers for a selected day
 function getInterviewersForDay(state, day) {
 
   const interviewerArray = [];

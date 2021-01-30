@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+// Handles UI mode transitions during API requests
 export default function useVisualMode(initial) {
 
   const [mode, setMode] = useState(initial);
